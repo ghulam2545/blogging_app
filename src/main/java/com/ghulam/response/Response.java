@@ -13,7 +13,7 @@ import java.util.Map;
  * 3. response data
  */
 public class Response {
-    public static ResponseEntity<Object> handler(String message, HttpStatus status, Object data) {
+    public static ResponseEntity<Object> builder(String message, HttpStatus status, Object data) {
         Map<String, Object> response = new HashMap<>();
         response.put("message", message);
         response.put("httpStatus", status);

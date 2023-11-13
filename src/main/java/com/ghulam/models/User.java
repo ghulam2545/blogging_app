@@ -1,8 +1,10 @@
 package com.ghulam.models;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Data;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -10,7 +12,7 @@ import lombok.Data;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "userid")
+    @Column(name = "user_id")
     private long userId;
 
     @Column(name = "firstname", nullable = false)
@@ -30,4 +32,7 @@ public class User {
 
     @Column(name = "intro", nullable = true)
     private String intro;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Post> posts = new ArrayList<>();
 }

@@ -4,7 +4,7 @@ import com.ghulam.dtos.UserDto;
 
 import java.util.List;
 
-public interface UserServiceInterface {
+public interface UserService {
     /**
      * primarily CRUD operation
      */
