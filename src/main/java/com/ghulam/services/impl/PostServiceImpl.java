@@ -2,7 +2,6 @@ package com.ghulam.services.impl;
 
 import com.ghulam.dtos.PostDto;
 import com.ghulam.exceptions.CategoryNotFoundException;
-import com.ghulam.exceptions.PostNotFoundException;
 import com.ghulam.exceptions.UserNotFoundException;
 import com.ghulam.models.Category;
 import com.ghulam.models.Post;
@@ -16,8 +15,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -33,13 +30,14 @@ public class PostServiceImpl implements PostService {
         this.modelMapper = modelMapper;
     }
 
-
     @Override
     public PostDto createPost(PostDto postDto) {
         long catId = postDto.getCategoryId();
         long userId = postDto.getUserId();
-        Category whichCategory = catRepo.findById(catId).orElseThrow(() -> new CategoryNotFoundException("Category id: " + catId + " is not found."));
-        User whichUser = userRepo.findById(postDto.getUserId()).orElseThrow(() -> new UserNotFoundException("User id: " + userId + " is not found."));
+        Category whichCategory = catRepo.findById(catId)
+                .orElseThrow(() -> new CategoryNotFoundException("Category id: " + catId + " is not found."));
+        User whichUser = userRepo.findById(postDto.getUserId())
+                .orElseThrow(() -> new UserNotFoundException("User id: " + userId + " is not found."));
         Post ourPost = toPost(postDto);
 
         ourPost.setPublishDate(LocalDate.now());
@@ -52,55 +50,22 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public PostDto getPostById(long postId) {
-//        try {
-//            Optional<Post> post = postRepo.findById(postId);
-//            Post data = post.get();
-//            return toDto(data);
-//        } catch (Exception ex) {
-//            throw new PostNotFoundException("Post id: " + postId + " is not found.");
-//        }
         return null;
     }
 
     @Override
     public PostDto updatePostById(PostDto postDto, long postId) {
-//        Post updatedPost;
-//        try {
-//            Optional<Post> post = postRepo.findById(postId);
-//            Post data = post.get();
-//
-//            //  update post's data
-//            data.setTitle(postDto.getTitle());
-//            data.setAuthor(postDto.getAuthor());
-//            data.setPublishDate(LocalDate.now());
-//            data.setImageUrl(postDto.getImageUrl());
-//            data.setContent(postDto.getContent());
-//
-//            updatedPost = postRepo.save(data);
-//        } catch (Exception ex) {
-//            throw new PostNotFoundException("Post id: " + postId + " is not found.");
-//        }
-//        return toDto(updatedPost);
         return null;
     }
 
     @Override
     public PostDto deletePostById(long postId) {
-//        try {
-//            Optional<Post> post = postRepo.findById(postId);
-//            Post data = post.get();
-//            postRepo.deleteById(postId);
-//            return toDto(data);
-//        } catch (Exception ex) {
-//            throw new PostNotFoundException("Post id: " + postId + " is not found.");
-//        }
         return null;
     }
 
     @Override
     public List<PostDto> getAllPosts() {
-        List<Post> data = postRepo.findAll();
-        return data.stream().map(this::toDto).collect(Collectors.toList());
+        return null;
     }
 
     private Post toPost(PostDto postDto) {

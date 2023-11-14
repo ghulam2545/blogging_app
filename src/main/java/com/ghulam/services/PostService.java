@@ -14,4 +14,6 @@ public interface PostService {
     PostDto deletePostById(long postId);
 
     List<PostDto> getAllPosts();
+
+    // more
 }

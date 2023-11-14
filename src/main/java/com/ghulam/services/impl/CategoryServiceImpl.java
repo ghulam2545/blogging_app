@@ -30,16 +30,18 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryDto getCategoryById(long categoryId) {
-        Category data = catRepo.findById(categoryId).orElseThrow(() -> new CategoryNotFoundException("Category id: " + categoryId + " is not found"));
+        Category data = catRepo.findById(categoryId)
+                .orElseThrow(() -> new CategoryNotFoundException("Category id: " + categoryId + " is not found"));
         return toDto(data);
     }
 
     @Override
     public CategoryDto updateCategoryById(CategoryDto categoryDto, long categoryId) {
         Category updatedCategory;
-        Category data = catRepo.findById(categoryId).orElseThrow(() -> new CategoryNotFoundException("Category id: " + categoryId + " is not found"));
+        Category data = catRepo.findById(categoryId)
+                .orElseThrow(() -> new CategoryNotFoundException("Category id: " + categoryId + " is not found"));
 
-        //  update category's data
+        // update category's data
         data.setCategoryType(categoryDto.getCategoryType());
         updatedCategory = catRepo.save(data);
 
@@ -48,7 +50,8 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryDto deleteCategoryById(long categoryId) {
-        Category data = catRepo.findById(categoryId).orElseThrow(() -> new CategoryNotFoundException("Category id: " + categoryId + " is not found."));
+        Category data = catRepo.findById(categoryId)
+                .orElseThrow(() -> new CategoryNotFoundException("Category id: " + categoryId + " is not found."));
         catRepo.deleteById(categoryId);
         return toDto(data);
     }

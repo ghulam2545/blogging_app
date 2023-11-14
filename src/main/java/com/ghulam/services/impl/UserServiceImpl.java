@@ -29,16 +29,18 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto getUserById(long userId) {
-        User data = userRepo.findById(userId).orElseThrow(() -> new UserNotFoundException("User id: " + userId + " is not found."));
+        User data = userRepo.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("User id: " + userId + " is not found."));
         return toDto(data);
     }
 
     @Override
     public UserDto updateUserById(UserDto userDto, long userId) {
         User updatedUser;
-        User data = userRepo.findById(userId).orElseThrow(() -> new UserNotFoundException("User id: " + userId + " is not found."));
+        User data = userRepo.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("User id: " + userId + " is not found."));
 
-        //  update user's data
+        // update user's data
         data.setFirstName(userDto.getFirstName());
         data.setLastName(userDto.getLastName());
         data.setUsername(userDto.getUsername());
@@ -52,7 +54,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto deleteUserById(long userId) {
-        User data = userRepo.findById(userId).orElseThrow(() -> new UserNotFoundException("User id: " + userId + " is not found."));
+        User data = userRepo.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("User id: " + userId + " is not found."));
         userRepo.deleteById(userId);
         return toDto(data);
     }

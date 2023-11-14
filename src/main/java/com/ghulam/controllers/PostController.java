@@ -25,6 +25,7 @@ public class PostController {
 
     @PostMapping("/add-post")
     public ResponseEntity<Object> createPost(@Valid @RequestBody PostDto postDto) {
+        System.out.println(postDto);
         PostDto result = postService.createPost(postDto);
         return response("Added a new post", result);
     }

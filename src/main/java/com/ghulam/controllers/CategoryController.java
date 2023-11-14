@@ -35,13 +35,14 @@ public class CategoryController {
     }
 
     @PutMapping("/update-category/{categoryId}")
-    public ResponseEntity<Object> updateCategory(@RequestBody CategoryDto categoryDto, @PathVariable Long categoryId) {
+    public ResponseEntity<Object> updateCategory(@RequestBody CategoryDto categoryDto,
+            @PathVariable Long categoryId) {
         CategoryDto result = catService.updateCategoryById(categoryDto, categoryId);
         return response("Updated a category by id: " + categoryId, result);
     }
 
     @DeleteMapping("/delete-category/{categoryId}")
-    public  ResponseEntity<Object> deleteCategory(@PathVariable Long categoryId) {
+    public ResponseEntity<Object> deleteCategory(@PathVariable Long categoryId) {
         CategoryDto result = catService.deleteCategoryById(categoryId);
         return response("Deleted a category by id: " + categoryId, result);
     }
