@@ -30,6 +30,12 @@ public class CustomExceptionHandler {
         return response(msg, null);
     }
 
+    @ExceptionHandler(PostNotFoundException.class)
+    public ResponseEntity<Object> postNotFound(PostNotFoundException ex) {
+        String msg = ex.getMessage();
+        return response(msg, null);
+    }
+
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<Object> duplicateEntry(DataIntegrityViolationException ex) {
         var msg = ex.getMessage();

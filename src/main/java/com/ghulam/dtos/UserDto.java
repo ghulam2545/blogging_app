@@ -16,9 +16,10 @@ public class UserDto {
     public String lastName;
 
     @NotEmpty
-    @Size(min = 3, max = 10, message = "username must be of size (3-10)")
+    @Size(min = 3, max = 20, message = "username must be of size (3-20)")
     private String username;
 
+    @NotEmpty
     @Email(message = "please specify valid email")
     private String email;
 

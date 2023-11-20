@@ -5,7 +5,7 @@ import com.ghulam.exceptions.UserNotFoundException;
 import com.ghulam.models.User;
 import com.ghulam.repositories.UserRepo;
 import com.ghulam.services.UserService;
-import org.modelmapper.ModelMapper;
+import com.ghulam.utils.ModelMapper;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -13,25 +13,23 @@ import java.util.stream.Collectors;
 @Service
 public class UserServiceImpl implements UserService {
     private final UserRepo userRepo;
-    private final ModelMapper modelMapper;
 
-    public UserServiceImpl(UserRepo userRepo, ModelMapper modelMapper) {
+    public UserServiceImpl(UserRepo userRepo) {
         this.userRepo = userRepo;
-        this.modelMapper = modelMapper;
     }
 
     @Override
     public UserDto createUser(UserDto userDto) {
-        User ourUser = toUser(userDto);
+        User ourUser = dtoToUser(userDto);
         User data = userRepo.save(ourUser);
-        return toDto(data);
+        return userToDto(data);
     }
 
     @Override
     public UserDto getUserById(long userId) {
         User data = userRepo.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException("User id: " + userId + " is not found."));
-        return toDto(data);
+        return userToDto(data);
     }
 
     @Override
@@ -49,7 +47,7 @@ public class UserServiceImpl implements UserService {
         data.setIntro(userDto.getIntro());
 
         updatedUser = userRepo.save(data);
-        return toDto(updatedUser);
+        return userToDto(updatedUser);
     }
 
     @Override
@@ -57,20 +55,20 @@ public class UserServiceImpl implements UserService {
         User data = userRepo.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException("User id: " + userId + " is not found."));
         userRepo.deleteById(userId);
-        return toDto(data);
+        return userToDto(data);
     }
 
     @Override
     public List<UserDto> getAllUsers() {
         List<User> data = userRepo.findAll();
-        return data.stream().map(this::toDto).collect(Collectors.toList());
+        return data.stream().map(this::userToDto).collect(Collectors.toList());
     }
 
-    private User toUser(UserDto userDto) {
-        return modelMapper.map(userDto, User.class);
+    private User dtoToUser(UserDto userDto) {
+        return ModelMapper.dtoToUser(userDto);
     }
 
-    private UserDto toDto(User user) {
-        return modelMapper.map(user, UserDto.class);
+    private UserDto userToDto(User user) {
+        return ModelMapper.userToDto(user);
     }
 }

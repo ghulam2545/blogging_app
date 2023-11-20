@@ -25,7 +25,6 @@ public class PostController {
 
     @PostMapping("/add-post")
     public ResponseEntity<Object> createPost(@Valid @RequestBody PostDto postDto) {
-        System.out.println(postDto);
         PostDto result = postService.createPost(postDto);
         return response("Added a new post", result);
     }
@@ -52,5 +51,17 @@ public class PostController {
     public ResponseEntity<Object> getAllPosts() {
         List<PostDto> result = postService.getAllPosts();
         return response("Getting all posts", result);
+    }
+
+    @GetMapping("/all-post-by-user/{userId}")
+    public ResponseEntity<Object> getAllPostByUser(@PathVariable Long userId) {
+        List<PostDto> result = postService.getAllPostsByUser(userId);
+        return response("Getting all post by user id: " + userId, result);
+    }
+
+    @GetMapping("/all-post-by-category/{categoryId}")
+    public ResponseEntity<Object> getAllPostByCategory(@PathVariable Long categoryId) {
+        List<PostDto> result = postService.getAllPostsByCategory(categoryId);
+        return response("Getting all post by category id: " + categoryId, result);
     }
 }

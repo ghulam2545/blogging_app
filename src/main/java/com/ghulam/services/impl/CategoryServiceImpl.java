@@ -5,7 +5,7 @@ import com.ghulam.models.Category;
 import com.ghulam.exceptions.CategoryNotFoundException;
 import com.ghulam.repositories.CategoryRepo;
 import com.ghulam.services.CategoryService;
-import org.modelmapper.ModelMapper;
+import com.ghulam.utils.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,25 +14,23 @@ import java.util.stream.Collectors;
 @Service
 public class CategoryServiceImpl implements CategoryService {
     private final CategoryRepo catRepo;
-    private final ModelMapper modelMapper;
 
-    public CategoryServiceImpl(CategoryRepo catRepo, ModelMapper modelMapper) {
+    public CategoryServiceImpl(CategoryRepo catRepo) {
         this.catRepo = catRepo;
-        this.modelMapper = modelMapper;
     }
 
     @Override
     public CategoryDto createCategory(CategoryDto categoryDto) {
-        Category ourUser = toCategory(categoryDto);
+        Category ourUser = dtoToCategory(categoryDto);
         Category data = catRepo.save(ourUser);
-        return toDto(data);
+        return categoryToDto(data);
     }
 
     @Override
     public CategoryDto getCategoryById(long categoryId) {
         Category data = catRepo.findById(categoryId)
                 .orElseThrow(() -> new CategoryNotFoundException("Category id: " + categoryId + " is not found"));
-        return toDto(data);
+        return categoryToDto(data);
     }
 
     @Override
@@ -45,7 +43,7 @@ public class CategoryServiceImpl implements CategoryService {
         data.setCategoryType(categoryDto.getCategoryType());
         updatedCategory = catRepo.save(data);
 
-        return toDto(updatedCategory);
+        return categoryToDto(updatedCategory);
     }
 
     @Override
@@ -53,20 +51,20 @@ public class CategoryServiceImpl implements CategoryService {
         Category data = catRepo.findById(categoryId)
                 .orElseThrow(() -> new CategoryNotFoundException("Category id: " + categoryId + " is not found."));
         catRepo.deleteById(categoryId);
-        return toDto(data);
+        return categoryToDto(data);
     }
 
     @Override
     public List<CategoryDto> getAllCategories() {
         List<Category> data = catRepo.findAll();
-        return data.stream().map(this::toDto).collect(Collectors.toList());
+        return data.stream().map(this::categoryToDto).collect(Collectors.toList());
     }
 
-    private Category toCategory(CategoryDto categoryDto) {
-        return modelMapper.map(categoryDto, Category.class);
+    private Category dtoToCategory(CategoryDto categoryDto) {
+        return ModelMapper.dtoToCategory(categoryDto);
     }
 
-    private CategoryDto toDto(Category category) {
-        return modelMapper.map(category, CategoryDto.class);
+    private CategoryDto categoryToDto(Category category) {
+        return ModelMapper.categoryToDto(category);
     }
 }

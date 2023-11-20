@@ -1,6 +1,7 @@
 package com.ghulam.dtos;
 
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
@@ -16,11 +17,13 @@ public class PostDto {
 
     private String imageUrl = "sample.png";
 
-    @NotEmpty
+    @NotEmpty /* for dev purpose min size is 20 */
     @Size(min = 20, max = 1000, message = "content must be of size (200-1000)")
     private String content;
 
+    @NotNull
     private long categoryId;
 
+    @NotNull
     private long userId;
 }

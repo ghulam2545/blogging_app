@@ -5,9 +5,7 @@ import com.ghulam.dtos.CategoryDto;
 import java.util.List;
 
 public interface CategoryService {
-    /**
-     * primarily CRUD operation
-     */
+    /* CRUD */
     CategoryDto createCategory(CategoryDto categoryDto);
     CategoryDto getCategoryById(long categoryId);
     CategoryDto updateCategoryById(CategoryDto categoryDto, long categoryId);

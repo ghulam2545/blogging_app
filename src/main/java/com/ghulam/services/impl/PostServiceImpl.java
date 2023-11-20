@@ -34,31 +34,47 @@ public class PostServiceImpl implements PostService {
     public PostDto createPost(PostDto postDto) {
         long catId = postDto.getCategoryId();
         long userId = postDto.getUserId();
-        Category whichCategory = catRepo.findById(catId)
+        Category theCategory = catRepo.findById(catId)
                 .orElseThrow(() -> new CategoryNotFoundException("Category id: " + catId + " is not found."));
-        User whichUser = userRepo.findById(postDto.getUserId())
+        User theUser = userRepo.findById(postDto.getUserId())
                 .orElseThrow(() -> new UserNotFoundException("User id: " + userId + " is not found."));
-        Post ourPost = toPost(postDto);
+        Post ourPost = dtoToPost(postDto);
 
         ourPost.setPublishDate(LocalDate.now());
-        ourPost.setCategory(whichCategory);
-        ourPost.setUser(whichUser);
+        ourPost.setCategory(theCategory);
+        ourPost.setUser(theUser);
 
         Post data = postRepo.save(ourPost);
-        return toDto(data);
+        return postToDto(data);
     }
 
     @Override
     public PostDto getPostById(long postId) {
         Post data = postRepo.findById(postId)
                 .orElseThrow(() -> new PostNotFoundException("Post id: " + postId + " is not found."));
-        return toDto(data);
+        return postToDto(data);
     }
 
     @Override
     public PostDto updatePostById(PostDto postDto, long postId) {
-        /* todos */
-        return null;
+        Post updatedPost;
+        Post post = postRepo.findById(postId)
+                .orElseThrow(() -> new PostNotFoundException("Post id: " + postId + " is not found."));
+
+        long catId = postDto.getCategoryId();
+        Category theCategory = catRepo.findById(catId)
+                .orElseThrow(() -> new CategoryNotFoundException("Category id: " + catId + " is not found."));
+
+        // update post
+        post.setTitle(postDto.getTitle());
+        post.setAuthor(postDto.getAuthor());
+        post.setImageUrl(postDto.getImageUrl());
+        post.setContent(postDto.getContent());
+        post.setCategory(theCategory);
+        // same user will update the post
+
+        updatedPost = postRepo.save(post);
+        return postToDto(updatedPost);
     }
 
     @Override
@@ -66,20 +82,38 @@ public class PostServiceImpl implements PostService {
         Post data = postRepo.findById(postId)
                 .orElseThrow(() -> new PostNotFoundException("Post id: " + postId + " is not found."));
         postRepo.deleteById(postId);
-        return toDto(data);
+        return postToDto(data);
     }
 
     @Override
     public List<PostDto> getAllPosts() {
         List<Post> data = postRepo.findAll();
-        return data.stream().map(this::toDto).collect(Collectors.toList());
+        return data.stream().map(this::postToDto).collect(Collectors.toList());
     }
 
-    private Post toPost(PostDto postDto) {
-        return ModelMapper.map(postDto);
+    @Override
+    public List<PostDto> getAllPostsByUser(long userId) {
+        User user = userRepo.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("User id: " + userId + " is not found."));
+
+        List<Post> posts = postRepo.findByUser(user);
+        return posts.stream().map(this::postToDto).collect(Collectors.toList());
     }
 
-    private PostDto toDto(Post post) {
-        return ModelMapper.map(post);
+    @Override
+    public List<PostDto> getAllPostsByCategory(long categoryId) {
+        Category category = catRepo.findById(categoryId)
+                .orElseThrow(() -> new CategoryNotFoundException("Category id: " + categoryId + " is not found."));
+
+        List<Post> posts = postRepo.findByCategory(category);
+        return posts.stream().map(this::postToDto).collect(Collectors.toList());
+    }
+
+    private Post dtoToPost(PostDto postDto) {
+        return ModelMapper.dtoToPost(postDto);
+    }
+
+    private PostDto postToDto(Post post) {
+        return ModelMapper.postToDto(post);
     }
 }
