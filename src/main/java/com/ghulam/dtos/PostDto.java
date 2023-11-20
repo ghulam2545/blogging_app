@@ -17,12 +17,10 @@ public class PostDto {
     private String imageUrl = "sample.png";
 
     @NotEmpty
-    @Size(min = 200, max = 1000, message = "content must be of size (200-1000)")
+    @Size(min = 20, max = 1000, message = "content must be of size (200-1000)")
     private String content;
 
-    @NotEmpty
     private long categoryId;
 
-    @NotEmpty
     private long userId;
 }

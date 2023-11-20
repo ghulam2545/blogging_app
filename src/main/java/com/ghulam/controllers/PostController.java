@@ -32,21 +32,25 @@ public class PostController {
 
     @GetMapping("/get-post/{postId}")
     public ResponseEntity<Object> readPost(@PathVariable Long postId) {
-        return null;
+        PostDto result = postService.getPostById(postId);
+        return response("Read a post by id: " + postId, result);
     }
 
     @PutMapping("/update-post/{postId}")
     public ResponseEntity<Object> updatePost(@Valid @RequestBody PostDto postDto, @PathVariable Long postId) {
-        return null;
+        PostDto result = postService.updatePostById(postDto, postId);
+        return response("Updated a post by id: " + postId, result);
     }
 
     @DeleteMapping("/delete-post/{postId}")
     public ResponseEntity<Object> deletePost(@PathVariable Long postId) {
-        return null;
+        PostDto result = postService.deletePostById(postId);
+        return response("Deleted a post by id: " + postId, result);
     }
 
     @GetMapping("/all-posts")
     public ResponseEntity<Object> getAllPosts() {
-        return null;
+        List<PostDto> result = postService.getAllPosts();
+        return response("Getting all posts", result);
     }
 }
