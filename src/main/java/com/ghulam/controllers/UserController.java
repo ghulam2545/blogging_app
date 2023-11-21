@@ -18,7 +18,6 @@ public class UserController {
     private ResponseEntity<Object> response(String message, Object data) {
         return Response.builder(message, HttpStatus.OK, data);
     }
-
     public UserController(UserService userService) {
         this.userService = userService;
     }

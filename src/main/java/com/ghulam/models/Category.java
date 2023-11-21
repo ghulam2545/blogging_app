@@ -13,11 +13,11 @@ import java.util.List;
 @Data
 public class Category {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "category_id")
     private long categoryId;
 
-    @Column(name = "category_type")
+    @Column(name = "category_type", nullable = false)
     @Enumerated(value = EnumType.STRING)
     private CategoryType categoryType;
 

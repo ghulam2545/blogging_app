@@ -1,9 +1,11 @@
 package com.ghulam.utils;
 
 import com.ghulam.dtos.CategoryDto;
+import com.ghulam.dtos.CommentDto;
 import com.ghulam.dtos.PostDto;
 import com.ghulam.dtos.UserDto;
 import com.ghulam.models.Category;
+import com.ghulam.models.Comment;
 import com.ghulam.models.Post;
 import com.ghulam.models.User;
 
@@ -66,5 +68,21 @@ public class ModelMapper {
         post.setImageUrl(postDto.getImageUrl());
         post.setContent(postDto.getContent());
         return post;
+    }
+
+    public static Comment dtoToComment(CommentDto commentDto) {
+        Comment comment = new Comment();
+
+        comment.setContent(commentDto.getContent());
+        return comment;
+    }
+
+    public static CommentDto commentToDto(Comment comment) {
+        CommentDto dto = new CommentDto();
+
+        dto.setContent(comment.getContent());
+        dto.setPostId(comment.getPost().getPostId());
+        dto.setUserId(comment.getUser().getUserId());
+        return dto;
     }
 }
