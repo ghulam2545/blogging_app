@@ -1,6 +1,6 @@
-## Bloging-App REST API
+## Blogging-App REST API
 
-Welcome to the Bloging-App REST API! This API is designed to support a simple blogging application with user management, post creation, commenting, and category organization.
+Welcome to the Blogging-App REST API! This API is designed to support a simple blogging application with user management, post creation, commenting, and category organization.
 
 ### Technologies Used
 
@@ -19,8 +19,8 @@ Welcome to the Bloging-App REST API! This API is designed to support a simple bl
 1. Clone the repository:
 
 ```
-git clone https://github.com/ghulam2545/bloging_app.git
-cd bloging-app
+git clone https://github.com/ghulam2545/blogging_app.git
+cd blogging-app
 ```
 
 2. Configure the Database:
@@ -59,7 +59,7 @@ cd bloging-app
 
 ### Database Schema
 
-![output screenshot](https://github.com/ghulam2545/bloging_app/blob/master/img/er.PNG)
+![output screenshot](https://github.com/ghulam2545/blogging_app/blob/master/img/er.PNG)
 
 ### Contributing
 
